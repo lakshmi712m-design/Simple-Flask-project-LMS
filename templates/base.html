@@ -9,11 +9,21 @@
 
     <body>
         <nav>
-            <a href="{{ url_for('home') }}">Home</a>
-            <a href="{{ url_for('list_users') }}">Users</a>
-            <a href="{{ url_for('register') }}">Register</a>
-            <a href="{{ url_for('list_courses') }}">Courses</a>
+            <a href="{{ url_for('home') }}">Home</a> |
+            {% if session.get('user_id') %}
+            <span>{{session.get('username','User')}}</span> |
+            <a href="{{ url_for('logout') }}">logout</a> |
+            {% else %}
+            <a href="{{ url_for('login') }}">Login</a> |
+            <a href="{{ url_for('register') }}">Register</a> |
+            {% endif %}
+            <a href="{{ url_for('list_users') }}">Users</a> |
+
+
+            <a href="{{ url_for('list_courses') }}">Courses</a> |
+            {% if session.get('role') == 'teacher' %}
             <a href="{{ url_for('course_create') }}">Create course</a>
+            {% endif %}
         </nav>
         <hr>
         <main>

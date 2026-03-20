@@ -1,6 +1,8 @@
-from flask import Flask,render_template,request,redirect,url_for,flash
+from flask import Flask,render_template,request,redirect,url_for,flash,session,abort
 import mysql.connector
+from functools import wraps
 from flask_sqlalchemy import SQLAlchemy 
+from werkzeug.security import generate_password_hash, check_password_hash
 from models import db,User,Course,Teacher
 
 app=Flask(__name__)
@@ -30,14 +32,103 @@ db.init_app(app)
 def home():
     return render_template('home.html')
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = (request.form.get('username') or '').strip()
+        password = (request.form.get('password') or '')
+
+
+        if not username or not password:
+            flash('username and password are required', 'error')
+            return render_template('login.html')
+
+        user = User.query.filter_by(username=username).first()
+
+        if not user or not check_password_hash(user.password,password):
+            flash('Invalid username or password', 'error')
+            return render_template('login.html')   # ✅ stop execution
+
+        # ✅ only runs if login is valid
+        session['user_id'] = user.id
+        session['role'] = user.roles
+        session['username'] = user.username
+
+        if user.roles == 'teacher':
+            return redirect(url_for('teacher_dashboard'))
+        return redirect(url_for('student_dashboard'))
+
+    return render_template('login.html')
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    flash('You Have been logged out','success')
+    return redirect(url_for('home'))
+
+def login_required(f):
+
+    """Decorator: redirect to login if user not in session."""
+
+    @wraps(f)
+
+    def decorated_function(*args, **kwargs):
+
+        if not session.get('user_id'):
+
+            flash('Please log in to continue.', 'error')
+
+            return redirect(url_for('login'))
+
+        return f(*args, **kwargs)
+
+    return decorated_function
+
+
+def role_required(role):
+
+    """Decorator: abort 403 if session role does not match."""
+
+    def decorator(f):
+        @wraps(f)
+        def decorated_function(*args, **kwargs):
+            if not session.get('user_id'):
+                flash('Please log in to continue.', 'error')
+                return redirect(url_for('login'))
+            if session.get('role') != role:
+                abort(403)
+            return f(*args, **kwargs)
+        return decorated_function
+    return decorator
+
+
+@app.route('/student/student_dashboard',methods=['GET','POST'])
+@login_required
+@role_required('student')
+def student_dashboard():
+    return render_template('student_dashboard.html')
+
+
+@app.route('/teacher/teacher_dashboard',methods=['GET','POST'])
+@login_required
+@role_required('teacher')
+def teacher_dashboard():
+    return render_template('teacher_dashboard.html')
+
+
+
+
 @app.route('/users')
+@login_required
+@role_required('student')
 def list_users():
     users= User.query.all()
     return render_template('user_list.html',users=users)
 
 
 @app.route('/user/edit/<int:id>', methods=['GET', 'POST'])
-
+@login_required
+@role_required('student')
 def edit_user(id):
 
     user = User.query.get_or_404(id)
@@ -80,7 +171,7 @@ def edit_user(id):
 
             user.username=username
             user.email=email
-            user.password=password
+            user.password=generate_password_hash(password)
             user.role=role
 
             db.session.commit()
@@ -95,11 +186,15 @@ def edit_user(id):
     return render_template('user_edit.html', user=user)
 
 @app.route('/user/<int:id>')
+@login_required
+@role_required('student')
 def user_detail(id):
     user=User.query.get_or_404(id)
     return render_template('user_detail.html',user=user)
 
 @app.route('/user/delete/<int:id>')
+@login_required
+@role_required('student')
 def delete_user(id):
     user=User.query.get_or_404(id)
     db.session.delete(user)
@@ -126,6 +221,8 @@ def delete_user(id):
 
 
 @app.route('/course/create', methods=['GET', 'POST'])
+@login_required
+@role_required('teacher')
 def course_create():
 
     if request.method == 'POST':
@@ -185,17 +282,21 @@ def course_create():
 
 
 @app.route('/courses')
+@login_required
 def list_courses():
     courses= Course.query.all()
     return render_template('course_list.html', courses=courses)
 
 
 @app.route('/course/<int:id>')
+@login_required
 def course_detail(id):
     course=Course.query.get_or_404(id)
     return render_template('course_detail.html',course=course)
 
 @app.route('/course/edit/<int:id>',methods=['GET', 'POST'])
+@login_required
+@role_required('teacher')
 def course_edit(id):
     course = Course.query.get_or_404(id)
     teachers = Teacher.query.all()
@@ -250,82 +351,88 @@ def course_edit(id):
     return render_template('course_edit.html', course=course, teachers=teachers)
 
 @app.route('/course/delete/<int:id>')
-
+@login_required
+@role_required('teacher')
 def course_delete(id):
     course = Course.query.get_or_404(id)
     db.session.delete(course)
     db.session.commit()
     return redirect(url_for('list_courses'))
 
-@app.route('/register', methods=['GET','POST'])
-def register():
+    @app.route('/register', methods=['GET','POST'])
+    def register():
 
-    if request.method == 'POST':
+        if request.method == 'POST':
 
-        username = (request.form.get('username') or '').strip()
-        email = (request.form.get('email') or '').strip()
-        password = (request.form.get('password') or '').strip()
-        role = (request.form.get('role') or '').strip()
+            username = (request.form.get('username') or '').strip()
+            email = (request.form.get('email') or '').strip()
+            password = (request.form.get('password') or '').strip()
+            role = (request.form.get('role') or '').strip()
 
-        #backend validation
-        
-        if not username:
-            flash('username is required','error')
-            return render_template('register.html',error='Username is required',username=username)
-        if not email:
-            flash('Email is required','error')
-            return render_template('register.html',error='Email is required',email=email)
-        
-        if '@' not in email:
-            flash('Provide a valid email','error') 
-            return render_template('register.html',error='provide a proper email',username=username)
-        
-        if not password:
-            flash('Password is required','error')
-            return render_template('register.html',error='password is required',username=username,email=email,role=role)
-        
-        if len(password)<4:
-            flash('Password must be atleast 4 characters','error')
-            return render_template('register.html',error='Password must be atleast 4 characters',username=username,email=email,role=role)
+            #backend validation
+            
+            if not username:
+                flash('username is required','error')
+                return render_template('register.html',error='Username is required',username=username)
+            if not email:
+                flash('Email is required','error')
+                return render_template('register.html',error='Email is required',email=email)
+            
+            if '@' not in email:
+                flash('Provide a valid email','error') 
+                return render_template('register.html',error='provide a proper email',username=username)
+            
+            if not password:
+                flash('Password is required','error')
+                return render_template('register.html',error='password is required',username=username,email=email,role=role)
+            
+            if len(password)<4:
+                flash('Password must be atleast 4 characters','error')
+                return render_template('register.html',error='Password must be atleast 4 characters',username=username,email=email,role=role)
 
-        if role not in ('student','teacher'):
-            flash('Please select a valid role','error')
-            return render_template('register.html',error='Please selecct a valid role',username=username,email=email,role=role)
+            if role not in ('student','teacher'):
+                flash('Please select a valid role','error')
+                return render_template('register.html',error='Please selecct a valid role',username=username,email=email,role=role)
 
-        if User.query.filter_by(username=username).first():
-            flash('Username already exist','error') 
-            return render_template('register.html',error='Username is already taken',username=username,email=email,role=role)
-        
-        if User.query.filter_by(email=email).first():
-            flash('email already exist','error') 
-            return render_template('register.html',error='email is already taken',username=username,email=email,role=role)
-        
-        
-        
-        try:
-            user = User(username=username, email=email, password=password, roles=role)
-            db.session.add(user)
-            db.session.commit()
-            flash('registration successful','success')
-            return redirect(url_for('list_users'))
-        except Exception:
-            db.session.rollback()
-            flash('Something went wrong,Please try again','error')
-            return render_template('register.html',username=username,email=email,role=role)
+            if User.query.filter_by(username=username).first():
+                flash('Username already exist','error') 
+                return render_template('register.html',error='Username is already taken',username=username,email=email,role=role)
+            
+            if User.query.filter_by(email=email).first():
+                flash('email already exist','error') 
+                return render_template('register.html',error='email is already taken',username=username,email=email,role=role)
+            
+            
+            
+            try:
+                hashed_password = generate_password_hash(password)
+                user = User(username=username, email=email, password=hashed_password, roles=role)
+                db.session.add(user)
+                db.session.commit()
+                flash('registration successful','success')
+                return redirect(url_for('list_users'))
+            except Exception:
+                db.session.rollback()
+                flash('Something went wrong,Please try again','error')
+                return render_template('register.html',username=username,email=email,role=role)
 
-        # # If the role is teacher, create teacher record
-        # if role == "teacher":
-        #     teacher = Teacher(
-        #     user_id=user.id,                                          this code is used before the try and except code now it is updated
-        #     name=username
-        #     )
-        #     db.session.add(teacher)
-        #     db.session.commit()
+            # # If the role is teacher, create teacher record
+            # if role == "teacher":
+            #     teacher = Teacher(
+            #     user_id=user.id,                                          this code is used before the try and except code now it is updated
+            #     name=username
+            #     )
+            #     db.session.add(teacher)
+            #     db.session.commit()
 
-        # return redirect(url_for('list_users'))
-        # # return redirect(url_for('user_detail.html'))
-    return render_template('register.html')
+            # return redirect(url_for('list_users'))
+            # # return redirect(url_for('user_detail.html'))
+        return render_template('register.html')
 
+
+@app.errorhandler(403)
+def forbidden(e):
+    return render_template('403.html'),403
 
 if __name__=='__main__':
     with app.app_context():
