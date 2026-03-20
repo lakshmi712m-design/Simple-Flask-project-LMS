@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}Register - LMS{% endblock %}
+{% block content %}
+{% if error %}
+<p style="color:red;">{{error}}</p>
+{% endif %}
+<h1>New user Register</h1>
+
+<form method="POST">
+    <p>
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" required>
+
+    </p>
+    <p>
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+
+    </p>
+    <p>
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" minlength="4" maxle="10">
+    </p>
+    <p>
+        <label for="role">Role</label>
+        <select name="role" id="role">
+            <option value="student">Student</option>
+            <option value="teacher">Teacher</option>
+        </select>
+    </p>
+    <br>
+    <button type="submit">Register</button>
+</form>
+
+{% endblock %}
