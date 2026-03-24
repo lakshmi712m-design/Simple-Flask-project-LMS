@@ -8,5 +8,8 @@
 
 <p>Welcome{% if session.get('username') %}, {{ session.username }}{% endif %}.</p>
 
-<p><a href="{{ url_for('list_courses') }}">Browse Courses</a></p>
+<p>
+    <a href="{{ url_for('list_courses') }}">Browse Courses</a>|
+    <a href="{{ url_for('my_enrollments') }}">My Enrollments</a>
+</p>
 {% endblock %}

@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}Enrollments - {{ course.title }}{% endblock %}
+
+{% block content %}
+
+<h1>Enrollments - {{ course.title }}</h1>
+
+{% if enrollments %}
+
+<table border="1" cellpadding="8">
+
+    <thead>
+        <tr>
+
+            <th>Student</th>
+
+            <th>Status</th>
+
+            <th>Date</th>
+
+            <th>Actions</th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        {% for e in enrollments %}
+
+        <tr>
+
+            <td>
+
+                {{ e.user.username }} ({{ e.user.email }})
+
+            </td>
+
+            <td>
+
+                {{ e.status }}
+
+            </td>
+
+            <td>
+
+                {{ e.created_at.strftime('%Y-%m-%d') if e.created_at else '-' }}
+
+            </td>
+            <td>
+
+
+                {% if e.status == 'pending' %}
+
+
+                <form method="post" action="{{ url_for('approve_enrollment', id=e.id) }}" style="display:inline;">
+
+                    <button type="submit">Approve</button>
+
+                </form>
+
+                <form method="post" action="{{ url_for('reject_enrollment', id=e.id) }}" style="display:inline;">
+
+                    <button type="submit">Reject</button>
+
+                </form>
+                {% else %}
+                -
+                {% endif %}
+
+            </td>
+        </tr>
+        {% endfor %}
+
+    </tbody>
+</table>
+{% else %}
+
+<p>No enrollments yet.</p>
+{% endif %}
+
+<p>
+
+    <a href="{{ url_for('course_detail', id=course.id) }}">Back to Course</a> |
+
+    <a href="{{ url_for('list_courses') }}">Courses</a>
+
+</p>
+
+
+{% endblock %}

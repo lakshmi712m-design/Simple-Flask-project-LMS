@@ -21,6 +21,36 @@
         <th>{{course.teacher_id}}</th>
     </tr>
 </table>
+{% if session.get('role') == 'student' %}
+{% if user_enrollment %}
+<p><strong>Your status:</strong> {{ user_enrollment.status }}</p>
+{% else %}
+
+<form method="post" action="{{ url_for('enroll_in_course', id=course.id) }}" style="display:inline;">
+
+    <button type="submit">Enroll</button>
+
+</form>
+
+{% endif %}
+
+<p><a href="{{ url_for('my_enrollments') }}">My Enrollments</a></p>
+
+
+{% endif %}
+{% if session.get('role') == 'teacher' and course.teacher_id == session.get('user_id') %}
+
+<p>
+
+    <a href="{{ url_for('course_enrollments', id=course.id) }}">
+
+        View Enrollments
+
+    </a>
+
+</p>
+
+{% endif %}
 
 <p>
     <a href="{{url_for('list_courses')}}">Back to course List</a> |

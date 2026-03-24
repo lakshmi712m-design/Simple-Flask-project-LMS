@@ -16,10 +16,14 @@
     </p>
 
     <p>
-        <label>Teacher</label>
-        <select name="teacher_id">
+        <select name="teacher_id" required>
+            <option value="">-- Select Teacher --</option>
+
             {% for teacher in teachers %}
-            <option value="{{ teacher.id }}">{{ teacher.name }}</option>
+            <option value="{{ teacher.id }}" {% if course is defined and course and course.teacher_id==teacher.id
+                %}selected{% endif %}>
+                {{ teacher.username }}
+            </option>
             {% endfor %}
         </select>
     </p>
