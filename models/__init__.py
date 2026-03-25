@@ -28,6 +28,7 @@ class Course(db.Model):
     description = db.Column(db.Text, nullable=True)
     teacher_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+    status= db.Column(db.String(100))
 
     # relationship: courses belong to a teacher
     teacher = db.relationship('User', backref='courses')
@@ -47,3 +48,28 @@ class Enrollment(db.Model):
     course = db.relationship('Course', backref='enrollments')
     def __repr__(self):
         return f"<Enrollment user={self.user_id} course={self.course_id} {self.status}>"
+
+
+class Video(db.Model):
+
+    """Video: file upload for course content. Teacher manages own course videos only."""
+    __tablename__ = 'video'
+
+    id = db.Column(db.Integer, primary_key=True)
+
+    course_id = db.Column(
+        db.Integer,
+
+        db.ForeignKey('course.id'),
+
+        nullable=False)
+    title = db.Column(db.String(200), nullable=False)
+    file_path = db.Column(db.String(500), nullable=False)
+    order = db.Column(db.Integer, default=0)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    course = db.relationship('Course', backref='videos')
+
+    def __repr__(self):
+
+        return f'<Video {self.title}>'
+

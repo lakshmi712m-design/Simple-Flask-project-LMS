@@ -60,7 +60,7 @@ def api_login_required(f):
 def api_role_required(role):
 
     """API: return 403 JSON if wrong role."""
-    
+
     def decorator(f):
         @wraps(f)
 
@@ -189,6 +189,29 @@ def teacher_dashboard():
 def list_users():
     users= User.query.all()
     return render_template('user_list.html',users=users)
+
+
+@app.route('/api/users')
+@api_login_required
+def api_list_users():
+
+    """REST: GET - list users as JSON."""
+
+
+    users = User.query.all()
+
+
+    data = [
+
+        {'id': u.id, 'username': u.username, 'email': u.email, 'role': u.role}
+
+        for u in users
+
+    ]
+
+
+    return jsonify({'status': 'success', 'data': data}), 200
+
 
 
 @app.route('/user/edit/<int:id>', methods=['GET', 'POST'])
@@ -351,11 +374,470 @@ def course_create():
     return render_template('course_form.html', teachers=teachers)
 
 
+
+@app.route('/api/courses', methods=['POST'])
+@api_login_required
+@api_role_required('teacher')
+def api_create_course():
+
+    """REST: POST - create course (teacher only)."""
+
+
+    data = _get_api_data()
+
+
+    title = (data.get('title') or '').strip()
+
+    description = (data.get('description') or '').strip()
+
+    teacher_id = data.get('teacher_id') or session.get('user_id')
+
+
+    if not title:
+
+        return jsonify({'status': 'error', 'message': 'Title is required'}), 400
+
+
+    teacher = User.query.filter_by(id=teacher_id, role='teacher').first()
+
+
+    if not teacher:
+
+        return jsonify({'status': 'error', 'message': 'Invalid teacher'}), 400
+
+
+    try:
+
+        course = Course(
+
+            title=title,
+
+            description=description,
+
+            teacher_id=teacher_id
+
+        )
+
+
+        db.session.add(course)
+
+        db.session.commit()
+
+
+        return jsonify({
+
+            'status': 'success',
+
+            'message': 'Course created',
+
+            'data': {'id': course.id}
+
+        }), 201
+
+
+    except Exception:
+
+        db.session.rollback()
+
+
+        return jsonify({
+
+            'status': 'error',
+
+            'message': 'Something went wrong'
+
+        }), 500
+
+
+
+
+@app.route('/api/courses/<int:id>', methods=['PUT'])
+@api_login_required
+@api_role_required('teacher')
+def api_update_course(id):
+
+    """REST: PUT - update course (teacher, own course only)."""
+
+
+    course = Course.query.get(id)
+
+
+    if not course:
+
+        return jsonify({'status': 'error', 'message': 'Course not found'}), 404
+
+
+    if course.teacher_id != session.get('user_id'):
+
+        return jsonify({'status': 'error', 'message': 'Access denied'}), 403
+
+
+    data = _get_api_data()
+
+
+    title = (data.get('title') or course.title).strip()
+
+    description = (data.get('description') or course.description or '').strip()
+
+
+    if not title:
+
+        return jsonify({'status': 'error', 'message': 'Title is required'}), 400
+
+
+    try:
+
+        course.title = title
+
+        course.description = description
+
+
+        db.session.commit()
+
+
+        return jsonify({
+
+            'status': 'success',
+
+            'message': 'Course updated'
+
+        }), 200
+
+
+    except Exception:
+
+        db.session.rollback()
+
+
+        return jsonify({
+
+            'status': 'error',
+
+            'message': 'Something went wrong'
+
+        }), 500
+
+
+
+@app.route('/api/courses/<int:id>', methods=['DELETE'])
+@api_login_required
+@api_role_required('teacher')
+def api_delete_course(id):
+
+    """REST: DELETE - delete course (teacher, own course only)."""
+
+
+    course = Course.query.get(id)
+
+
+    if not course:
+
+        return jsonify({'status': 'error', 'message': 'Course not found'}), 404
+
+
+    if course.teacher_id != session.get('user_id'):
+
+        return jsonify({'status': 'error', 'message': 'Access denied'}), 403
+
+
+    try:
+
+        Enrollment.query.filter_by(course_id=id).delete()
+
+        db.session.delete(course)
+
+        db.session.commit()
+
+
+        return jsonify({
+
+            'status': 'success',
+
+            'message': 'Course deleted'
+
+        }), 200
+
+
+    except Exception:
+
+        db.session.rollback()
+
+
+        return jsonify({
+
+            'status': 'error',
+
+            'message': 'Something went wrong'
+
+        }), 500
+
+
+
+@app.route('/api/enrollments', methods=['POST'])
+
+@api_login_required
+
+@api_role_required('student')
+
+def api_enroll():
+
+    """REST: POST - enroll in course (student)."""
+
+
+    data = _get_api_data()
+
+    course_id = data.get('course_id')
+
+
+    if not course_id:
+
+        return jsonify({'status': 'error', 'message': 'course_id is required'}), 400
+
+
+    course = Course.query.get(course_id)
+
+
+    if not course:
+
+        return jsonify({'status': 'error', 'message': 'Course not found'}), 404
+
+
+    user_id = session.get('user_id')
+
+
+    existing = Enrollment.query.filter_by(
+
+        user_id=user_id,
+
+        course_id=course_id
+
+    ).first()
+
+
+    if existing:
+
+        return jsonify({
+
+            'status': 'error',
+
+            'message': 'Already enrolled or pending'
+
+        }), 400
+
+
+    try:
+
+        enrollment = Enrollment(
+
+            user_id=user_id,
+
+            course_id=course_id,
+
+            status='pending'
+
+        )
+
+
+        db.session.add(enrollment)
+
+        db.session.commit()
+
+
+        return jsonify({
+
+            'status': 'success',
+
+            'message': 'Enrollment requested',
+
+            'data': {'id': enrollment.id}
+
+        }), 201
+
+
+    except Exception:
+
+        db.session.rollback()
+
+
+        return jsonify({
+
+            'status': 'error',
+
+            'message': 'Something went wrong'
+
+        }), 500
+
+
+
+@app.route('/api/enrollments')
+
+@api_login_required
+
+def api_list_enrollments():
+
+    """REST: GET - student: my enrollments; teacher: pass course_id for course enrollments."""
+
+
+
+    user_id = session.get('user_id')
+
+    role = session.get('role')
+
+    course_id = request.args.get('course_id', type=int)
+
+
+    if role == 'student':
+
+        enrollments = Enrollment.query.filter_by(user_id=user_id)\
+            .order_by(Enrollment.created_at.desc())\
+                .all()
+
+
+    elif role == 'teacher' and course_id:
+
+        course = Course.query.get(course_id)
+
+
+        if not course or course.teacher_id != user_id:
+
+            return jsonify({'status': 'error', 'message': 'Access denied'}), 403
+
+
+        enrollments = Enrollment.query.filter_by(course_id=course_id)\
+            .order_by(Enrollment.created_at.desc())\
+                .all()
+
+
+    else:
+
+        return jsonify({
+
+            'status': 'error',
+
+            'message': 'Students: no params. Teachers: course_id required'
+
+        }), 400
+
+
+    data = [
+
+        {
+
+            'id': e.id,
+
+            'course_id': e.course_id,
+
+            'course_title': e.course.title,
+
+            'user_id': e.user_id,
+
+            'username': e.user.username,
+
+            'status': e.status
+
+        }
+
+        for e in enrollments
+
+    ]
+
+
+    return jsonify({'status': 'success', 'data': data}), 200
+
+
+
 @app.route('/courses')
 @login_required
 def list_courses():
     courses= Course.query.all()
     return render_template('course_list.html', courses=courses)
+
+
+# api course list code
+
+@app.route('/api/courses')
+@api_login_required
+def api_list_courses():
+
+    """REST: GET - list courses as JSON."""
+
+
+    courses = Course.query.all()
+
+
+    data = [
+
+        {
+            'id': c.id,
+
+            'title': c.title,
+
+            'description': c.description or '',
+
+            'teacher_id': c.teacher_id,
+
+            'status': c.status
+
+        }
+
+        for c in courses
+    ]
+
+    return jsonify({
+
+        'status': 'success',
+
+        'data': data
+
+    }), 200
+
+# api course detail
+
+@app.route('/api/courses/<int:id>')
+
+@api_login_required
+
+def api_course_detail(id):
+
+    """REST: GET - course detail. 404 if not found."""
+
+
+    course = Course.query.get(id)
+
+
+    if not course:
+
+        return jsonify({
+
+            'status': 'error',
+
+            'message': 'Course not found'
+
+        }), 404
+
+
+    data = {
+
+        'id': course.id,
+
+        'title': course.title,
+
+        'description': course.description or '',
+
+        'teacher_id': course.teacher_id,
+
+        'teacher': course.teacher.username
+
+    }
+
+
+    return jsonify({
+
+        'status': 'success',
+
+        'data': data
+
+    }), 200
 
 
 @app.route('/course/<int:id>')
@@ -639,6 +1121,173 @@ def register():
         # return redirect(url_for('list_users'))
         # # return redirect(url_for('user_detail.html'))
     return render_template('register.html')
+
+
+@app.route('/api/users', methods=['POST'])
+
+def api_register():
+
+    """REST: POST - register user. 201 Created, 400 validation error."""
+
+    data = _get_api_data()
+
+    username = (data.get('username') or '').strip()
+    email = (data.get('email') or '').strip()
+    password = data.get('password') or ''
+    role = (data.get('role') or '').strip()
+
+    if isinstance(username, list):
+        username = (username[0] or '').strip() if username else ''
+
+    if isinstance(email, list):
+        email = (email[0] or '').strip() if email else ''
+
+
+    if isinstance(password, list):
+        password = (password[0] or '').strip() if password else ''
+    
+    if isinstance(role, list):
+        role = (role[0] or '').strip() if role else ''
+
+    if not username:
+        return jsonify({"status": "error","message": "Username is required"}),400
+    
+    if not email or '@' not in email:
+        return jsonify({"status": "error","message": "valid email is required"}),400
+    
+    if not password or len(password)<4:
+        return jsonify({"status": "error","message": "minimum 4 characters is required in password"}),400
+    
+    if not role in ('student','teacher'):
+        return jsonify({"status": "error","message": "role must be student or teacher"}),400
+    
+    if User.query.filter_by(username=username).first():
+        return jsonify({"status": "error","message": "Username already exist"}),400
+    
+    if User.query.filter_by(email=email).first():
+        return jsonify({"status": "error","message": "email already exist"}),400
+    try:
+        user = User(
+
+        username=username,
+
+        email=email,
+
+        password=generate_password_hash(password),
+
+        role=role)
+        db.session.add(user)
+        db.session.commit()
+        return jsonify({"status": "success","message": "registration successfull"
+
+        }),201
+    except Exception:
+        db.session.rollback()
+        return jsonify({"status": "error","message": "Something went wrong"}),500
+
+
+def _get_api_data():
+
+    """Get request data from JSON, form, or query string (for API flexibility)."""
+
+
+    # 1. Try JSON body
+
+    data = request.get_json(force=True, silent=True)
+
+    if data and isinstance(data, dict):
+
+        return data
+
+
+    # 2. Try form data
+
+    if request.form:
+
+        return {
+
+            k: (v[0] if isinstance(v, list) else v)
+
+            for k, v in request.form.items()
+
+        }
+
+
+    # 3. Try raw body JSON
+
+    if request.get_data():
+
+        import json
+
+        try:
+
+            return json.loads(request.get_data(as_text=True))
+
+        except Exception:
+
+            pass
+
+
+    # 4. Try query parameters
+
+    if request.args:
+
+        return dict(request.args)
+
+
+    return {}
+
+
+
+
+@app.route('/api/login', methods=['POST'])
+
+def api_login():
+
+    """REST: POST - login. Returns 200 + session, 401 if invalid."""
+
+
+    data = _get_api_data()
+
+
+    username = (data.get('username') or '').strip()
+
+    password = data.get('password') or ''
+
+
+    if not username or not password:
+
+        return jsonify({'status': 'error', 'message': 'Username and password required'}), 400
+
+
+    user = User.query.filter_by(username=username).first()
+
+
+    if not user or not check_password_hash(user.password, password):
+
+        return jsonify({'status': 'error', 'message': 'Invalid credentials'}), 401
+
+
+    session['user_id'] = user.id
+
+    session['role'] = user.role
+
+    session['username'] = user.username
+
+    session.permanent = True
+
+
+    return jsonify({
+
+        'status': 'success',
+
+        'message': 'Login successful',
+
+        'data': {'user_id': user.id, 'role': user.role}
+
+    }), 200
+
+
 
 
 @app.errorhandler(403)
