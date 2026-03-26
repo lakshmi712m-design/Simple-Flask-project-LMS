@@ -4,12 +4,57 @@
 
 {% block content %}
 
-<h1>Student Dashboard</h1>
+<div class="dashboard-welcome">
 
-<p>Welcome{% if session.get('username') %}, {{ session.username }}{% endif %}.</p>
 
-<p>
-    <a href="{{ url_for('list_courses') }}">Browse Courses</a>|
-    <a href="{{ url_for('my_enrollments') }}">My Enrollments</a>
-</p>
+    <h1>
+
+        Hello, {{ session.get('username', 'Student') }} !
+
+    </h1>
+
+
+    <p>
+
+        Ready to learn today?
+
+    </p>
+
+
+</div>
+
+<div class="dashboard-actions">
+
+
+    <a href="{{ url_for('list_courses') }}" class="action-card">
+
+
+        <div class="action-card-icon">📚</div>
+
+
+        <h2>Browse Courses</h2>
+
+
+        <p>Explore and enroll in new courses</p>
+
+
+    </a>
+
+
+    <a href="{{ url_for('my_enrollments') }}" class="action-card">
+
+
+        <div class="action-card-icon">📋</div>
+
+
+        <h2>My Enrollments</h2>
+
+
+        <p>View your enrolled courses and status</p>
+
+
+    </a>
+
+
+</div>
 {% endblock %}

@@ -2,82 +2,59 @@
 {% block title %}My Enrollments - LearnByTech{% endblock %}
 
 {% block content %}
-<h1>My Enrollments</h1>
-{% if enrollments %}
 
-<table border="1" cellpadding="8">
+<div class="enrollments-page">
 
-    <thead>
+    <h1>My Enrollments</h1>
 
-        <tr>
+    {% if enrollments %}
 
-            <th>Course</th>
+    <div class="enrollments-list">
 
-            <th>Status</th>
-
-            <th>Date</th>
-
-        </tr>
-
-    </thead>
-
-
-    <tbody>
+        <div class="enrollments-row enrollments-row-head">
+            <span>Course</span>
+            <span>Status</span>
+            <span>Date</span>
+        </div>
 
         {% for e in enrollments %}
+        <div class="enrollments-row">
 
-        <tr>
-
-            <td>
-
+            <span>
                 <a href="{{ url_for('course_detail', id=e.course.id) }}">
-
                     {{ e.course.title }}
-
                 </a>
+            </span>
 
-            </td>
+            <span>{{ e.status }}</span>
 
-
-            <td>{{ e.status }}</td>
-
-
-            <td>
-
+            <span>
                 {{ e.created_at.strftime('%Y-%m-%d') if e.created_at else '-' }}
+            </span>
 
-            </td>
-
-        </tr>
-
+        </div>
         {% endfor %}
 
-    </tbody>
+    </div>
 
+    {% else %}
 
-</table>
+    <p class="enrollments-empty">
+        You have no enrollments.
+        <a href="{{ url_for('list_courses') }}">
+            Browse Courses
+        </a>
+    </p>
 
+    {% endif %}
 
-{% else %}
+    <!-- ✅ This is OUTSIDE the if-else (correct) -->
+    <p class="enrollments-back">
+        <a href="{{ url_for('list_courses') }}">
+            Back to Courses
+        </a>
+    </p>
 
-
-<p>
-
-    You have no enrollments.
-
-    <a href="{{ url_for('list_courses') }}">Browse Courses</a>
-
-</p>
-
-
-{% endif %}
-
-
-<p>
-
-    <a href="{{ url_for('list_courses') }}">Back to Courses</a>
-
-</p>
-
+</div>
 
 {% endblock %}

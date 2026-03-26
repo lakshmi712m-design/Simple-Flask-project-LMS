@@ -5,47 +5,171 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{% block title %}LMS{% endblock %}</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     </head>
 
+
     <body>
-        <nav>
-            <a href="{{ url_for('home') }}">Home</a> |
-            {% if session.get('user_id') %}
-            <span>{{session.get('username','User')}}</span> |
-            <a href="{{ url_for('logout') }}">logout</a> |
-            {% else %}
-            <a href="{{ url_for('login') }}">Login</a> |
-            <a href="{{ url_for('register') }}">Register</a> |
-            {% endif %}
-            <a href="{{ url_for('list_users') }}">Users</a> |
+        <nav class="navbar">
 
 
-            <a href="{{ url_for('list_courses') }}">Courses</a> |
-            {% if session.get('role') == 'student' %}
+            <div class="navbar-left">
 
-            <a href="{{ url_for('my_enrollments') }}">My Enrollments</a>
+                <a href="{{ url_for('home') }}">LMS</a>
 
-            {% endif %}
-            {% if session.get('role') == 'teacher' %}
-            <a href="{{ url_for('course_create') }}">Create course</a>
-            {% endif %}
+            </div>
+
+
+            <div class="navbar-center">
+
+                <a href="{{ url_for('home') }}">Home</a>
+
+                <a href="{{ url_for('list_users') }}">Users</a>
+
+                <a href="{{ url_for('list_courses') }}">Courses</a>
+
+
+                {% if session.get('role') == 'student' %}
+
+                <a href="{{ url_for('my_enrollments') }}">My Enrollments</a>
+
+                {% endif %}
+
+
+                {% if session.get('role') == 'teacher' %}
+
+                <a href="{{ url_for('course_create') }}">Create Course</a>
+
+                {% endif %}
+
+
+            </div>
+
+
+            <div class="navbar-right">
+
+
+                {% if session.get('user_id') %}
+
+
+                <span>{{ session.get('username', 'User') }}</span>
+
+
+                <a class="btn-login" href="{{ url_for('logout') }}">Logout</a>
+
+
+                {% else %}
+
+
+                <a class="btn-login" href="{{ url_for('login') }}">Login</a>
+
+
+                {% endif %}
+
+
+            </div>
+
+
         </nav>
         <hr>
         <main>
-            {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-            {% for category,msg in messages %}
-            {% if category=='error' %}
-            <p style="color: red;">{{msg}}</p>
-            {% else %}
-            <p style="color: green;">{{msg}}</p>
-            {% endif %}
-            {% endfor %}
-            {% endif %}
-            {% endwith %}
-            {% block content %}{% endblock %}
+
+
+            <div class="container">
+
+
+                {% with messages = get_flashed_messages(with_categories=true) %}
+
+
+                {% if messages %}
+
+
+                {% for category, msg in messages %}
+
+
+                <p class="{% if category == 'error' %}flash-error{% else %}flash-success{% endif %}">
+
+                    {{ msg }}
+
+                </p>
+
+
+                {% endfor %}
+
+
+                {% endif %}
+
+                {% endwith %}
+
+
+                {% block content %}{% endblock %}
+
+
+            </div>
+
 
         </main>
+        <footer class="footer">
+
+
+            <div class="container">
+
+
+                <div class="footer-col">
+
+
+                    <h3>LMS</h3>
+
+                    <p>Copyrights</p>
+
+
+                </div>
+
+
+                <div class="footer-col">
+
+
+                    <h3>Contact US</h3>
+
+                    <p>
+
+                        <a href="tel:8088064988">8088064988</a>
+
+                    </p>
+
+
+                </div>
+
+
+                <div class="footer-col">
+
+
+                    <h3>Service</h3>
+
+
+                    <ul>
+
+                        <li>Python Classes</li>
+
+                        <li>AI Classes</li>
+
+                        <li>Full Stack Classes</li>
+
+                        <li>SQL Classes</li>
+
+                        <li>DSA Classes</li>
+
+                    </ul>
+
+
+                </div>
+
+
+            </div>
+
+
+        </footer>
+
     </body>
 
 </html>

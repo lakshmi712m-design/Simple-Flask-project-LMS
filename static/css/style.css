@@ -1,0 +1,1785 @@
+* {
+
+    box-sizing: border-box;
+
+}
+
+html {
+
+    color-scheme: light;
+
+}
+
+body {
+
+    margin: 0;
+
+    font-family: system-ui, -apple-system, sans-serif;
+
+    background: #fff !important;
+
+    color: #333 !important;
+
+}
+
+.container {
+
+    max-width: 1200px;
+
+    margin: 0 auto;
+
+    padding: 0 16px;
+
+}
+
+.navbar {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 12px 16px;
+
+    border-bottom: 1px solid #ddd;
+
+    background: #f8f8f8;
+
+}
+
+.navbar-left a {
+
+    font-weight: bold;
+
+    font-size: 1.25rem;
+
+    color: #333;
+
+    text-decoration: none;
+
+}
+
+.navbar-center {
+
+    display: flex;
+
+    gap: 20px;
+
+}
+
+.navbar-center a {
+
+    color: #333;
+
+    text-decoration: none;
+
+}
+
+.navbar-center a:hover {
+
+    text-decoration: underline;
+
+}
+
+.navbar-right a,
+
+.navbar-right span {
+
+    margin-left: 12px;
+
+    color: #333;
+
+    text-decoration: none;
+
+}
+
+.btn-login {
+
+    padding: 6px 14px;
+
+    background: #e8e8e8 !important;
+
+    color: #333 !important;
+
+    border: 1px solid #ccc;
+
+    cursor: pointer;
+
+    text-decoration: none;
+
+    font-size: 0.9rem;
+
+    display: inline-block;
+
+    border-radius: 4px;
+
+}
+
+.btn-login:hover {
+
+    background: #ddd !important;
+
+}
+
+main {
+
+    min-height: 60vh;
+
+    padding: 20px 0;
+
+    background: #fff !important;
+
+    color: #333 !important;
+
+}
+
+main h1,
+
+main p,
+
+main label {
+
+    color: #333 !important;
+
+}
+
+main input {
+
+    background: #fff;
+
+    color: #333;
+
+    border: 1px solid #ccc;
+
+}
+
+.flash-error {
+
+    color: #c00;
+
+    margin: 8px 0;
+
+}
+
+.flash-success {
+
+    color: #070;
+
+    margin: 8px 0;
+
+}
+
+.footer {
+
+    background: #333;
+
+    color: #fff;
+
+    padding: 32px 16px 24px;
+
+    margin-top: 40px;
+
+}
+
+Footer Layout .footer .container {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 40px;
+
+    flex-wrap: wrap;
+
+}
+
+Footer Layout .footer .container {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 40px;
+
+    flex-wrap: wrap;
+
+}
+
+.footer-col p,
+
+.footer-col ul {
+
+    margin: 0;
+
+    padding: 0;
+
+    font-size: 0.9rem;
+
+    line-height: 1.6;
+
+}
+
+.footer-col ul {
+
+    list-style: none;
+
+}
+
+.footer-col a {
+
+    color: #ccc;
+
+    text-decoration: none;
+
+}
+
+.footer-col a:hover {
+
+    color: #fff;
+
+}
+
+.home-section {
+
+    margin-bottom: 48px;
+
+}
+
+.hero {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 32px;
+
+    padding: 40px 0;
+
+}
+
+.hero-text {
+
+    flex: 1;
+
+}
+
+.hero-tagline {
+
+    font-size: 0.95rem;
+
+    color: #666;
+
+    margin-bottom: 8px;
+
+}
+
+.hero h1 {
+
+    font-size: 2rem;
+
+    margin: 0 0 20px 0;
+
+    line-height: 1.3;
+
+    color: #333;
+
+}
+
+.hero-cta {
+
+    display: inline-block;
+
+    padding: 12px 24px;
+
+    background: #333;
+
+    color: #fff;
+
+    text-decoration: none;
+
+    border-radius: 4px;
+
+    font-weight: bold;
+
+    margin-top: 8px;
+
+}
+
+
+.hero-cta:hover {
+
+    background: #555;
+
+    color: #fff;
+
+}
+
+.hero-img {
+
+    flex: 0 0 420px;
+
+}
+
+
+.hero-img img {
+
+    width: 100%;
+
+    height: auto;
+
+    display: block;
+
+}
+
+.stats {
+
+    background: #b8d4e8;
+
+    padding: 40px 24px;
+
+    border-radius: 8px;
+
+}
+
+.stats-inner {
+
+    max-width: 1200px;
+
+    margin: 0 auto;
+
+    padding: 0 16px;
+
+    display: flex;
+
+    justify-content: space-around;
+
+    gap: 24px;
+
+    flex-wrap: wrap;
+
+}
+
+.stat-card {
+
+    text-align: center;
+
+    flex: 1;
+
+    min-width: 180px;
+
+}
+
+.stat-card .number {
+
+    font-size: 2rem;
+
+    font-weight: bold;
+
+    color: #333;
+
+    display: block;
+
+}
+
+.stat-card .label {
+
+    font-size: 1rem;
+
+    color: #333;
+
+    margin-top: 4px;
+
+}
+
+.features {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 48px;
+
+    padding: 40px 0;
+
+}
+
+.features-img {
+
+    flex: 0 0 400px;
+
+}
+
+
+.features-img img {
+
+    width: 100%;
+
+    height: auto;
+
+    display: block;
+
+}
+
+.features-text {
+
+    flex: 1;
+
+}
+
+.features-text h2 {
+
+    font-size: 1.5rem;
+
+    margin: 0 0 20px 0;
+
+    color: #333;
+
+}
+
+.features-list {
+
+    margin: 0;
+
+    padding-left: 20px;
+
+    line-height: 1.8;
+
+    color: #444;
+
+}
+
+/* CSS — LOGIN PAGE LAYOUT */
+.login-page {
+
+    display: flex;
+
+    gap: 0;
+
+    min-height: 500px;
+
+}
+
+/* Left Panel Styling  */
+.login-left {
+
+    flex: 1;
+
+    background: #d4edda;
+
+    border-radius: 12px;
+
+    padding: 40px;
+
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+}
+
+/* Left Panel Content  */
+.login-left h1 {
+
+    font-size: 1.75rem;
+
+    margin: 0 0 24px 0;
+
+    color: #333;
+
+    text-align: center;
+
+}
+
+/* Illustration Image  */
+.login-left img {
+
+    max-width: 100%;
+
+    height: auto;
+
+    display: block;
+
+}
+
+/* CSS — RIGHT PANEL & FORM  */
+.login-right {
+
+    flex: 1;
+
+    padding: 40px;
+
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+}
+
+/* Login Form Width  */
+.login-form {
+
+    width: 100%;
+
+    max-width: 360px;
+
+}
+
+/* Form Groups  */
+.form-group {
+
+    margin-bottom: 20px;
+
+}
+
+/* Labels  */
+.form-group label {
+
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-weight: 500;
+
+    color: #333;
+
+}
+
+/* Input Fields  */
+.form-group input {
+
+    width: 100%;
+
+    padding: 10px 12px;
+
+    font-size: 1rem;
+
+    border: 1px solid #ccc;
+
+    border-radius: 6px;
+
+    background: #fff;
+
+    color: #333;
+
+}
+
+/* Login Button  */
+.btn-login-submit {
+
+    width: 100%;
+
+    padding: 12px;
+
+    font-size: 1rem;
+
+    font-weight: 600;
+
+    background: #0066cc;
+
+    color: #fff;
+
+    border: none;
+
+    border-radius: 6px;
+
+    cursor: pointer;
+
+    text-align: center;
+
+    margin-top: 8px;
+
+}
+
+/* Button Hover  */
+.btn-login-submit:hover {
+
+    background: #0052a3;
+
+}
+
+/* Login Links Layout  */
+.login-links {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    margin-top: 20px;
+
+    font-size: 0.9rem;
+
+}
+
+/* Login Links Styling  */
+.login-links a {
+
+    color: #0066cc;
+
+    text-decoration: none;
+
+}
+
+
+.login-links a:hover {
+
+    text-decoration: underline;
+
+}
+
+/* Dashboard Wrapper  */
+.dashboard-student {
+
+    max-width: 800px;
+
+    padding: 24px 0;
+
+}
+
+/* Welcome Card  */
+.dashboard-welcome {
+
+    background: #d4edda;
+
+    border-radius: 12px;
+
+    padding: 32px;
+
+    margin-bottom: 40px;
+
+}
+
+/* Welcome Heading  */
+.dashboard-welcome h1 {
+
+    font-size: 1.75rem;
+
+    margin: 0 0 8px 0;
+
+    color: #333;
+
+}
+
+/* Welcome Text  */
+.dashboard-welcome p {
+
+    margin: 0;
+
+    font-size: 1rem;
+
+    color: #555;
+
+}
+
+/* Action Card Layout  */
+.dashboard-actions {
+
+    display: flex;
+
+    gap: 24px;
+
+    flex-wrap: wrap;
+
+}
+
+/* Action Card Styling  */
+.action-card {
+
+    flex: 1;
+
+    min-width: 200px;
+
+    display: block;
+
+    padding: 28px 24px;
+
+    background: #fff;
+
+    border: 1px solid #ddd;
+
+    border-radius: 12px;
+
+    text-decoration: none;
+
+    color: #333;
+
+    transition: box-shadow 0.2s, border-color 0.2s;
+
+}
+
+/* Hover Effect  */
+.action-card:hover {
+
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+
+    border-color: #b8d4e8;
+
+}
+
+/* Icon Styling  */
+.action-card-icon {
+
+    font-size: 2rem;
+
+    margin-bottom: 12px;
+
+}
+
+/* Card Title  */
+.action-card h2 {
+
+    font-size: 1.2rem;
+
+    margin: 0 0 8px 0;
+
+    color: #333;
+
+}
+
+/* Card Description  */
+.action-card p {
+
+    margin: 0;
+
+    font-size: 0.9rem;
+
+    color: #666;
+
+    line-height: 1.5;
+
+}
+
+/* course list page CSS — PAGE & HEADER  */
+.courses-page {
+
+    max-width: 900px;
+
+    padding: 20px 0;
+
+}
+
+/* Header Layout  */
+.courses-header {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 24px;
+
+}
+
+/* Header Title  */
+.courses-header-text h1 {
+
+    font-size: 1.35rem;
+
+    margin: 0;
+
+    color: #333;
+
+}
+
+/* Header Subtitle  */
+.courses-header-text p {
+
+    margin: 4px 0 0 0;
+
+    font-size: 0.9rem;
+
+    color: #666;
+
+}
+
+/* Add Course Link  */
+.btn-add-course {
+
+    font-size: 0.9rem;
+
+    color: #0066cc;
+
+    text-decoration: none;
+
+}
+
+
+.btn-add-course:hover {
+
+    text-decoration: underline;
+
+}
+
+/* CSS — COURSE GRID & CARDS  */
+.courses-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+
+    gap: 20px;
+
+}
+
+/* Course Card  */
+.course-card {
+
+    border: 1px solid #ddd;
+
+    padding: 20px;
+
+}
+
+/* Title Styling  */
+.course-card h2 {
+
+    font-size: 1.1rem;
+
+    margin: 0 0 8px 0;
+
+}
+
+/* Title Link  */
+.course-card h2 a {
+
+    color: #333;
+
+    text-decoration: none;
+
+}
+
+
+.course-card h2 a:hover {
+
+    color: #0066cc;
+
+}
+
+/* Course Description  */
+.course-description {
+
+    font-size: 0.9rem;
+
+    color: #666;
+
+    margin: 0 0 8px 0;
+
+    line-height: 1.4;
+
+}
+
+/* Teacher Name  */
+.course-teacher {
+
+    font-size: 0.85rem;
+
+    color: #666;
+
+    margin: 0 0 12px 0;
+
+}
+
+/* Course Actions  */
+.course-actions {
+
+    display: flex;
+
+    gap: 12px;
+
+    padding-top: 8px;
+
+    border-top: 1px solid #eee;
+
+}
+
+/* Action Links  */
+.course-actions a {
+
+    font-size: 0.9rem;
+
+    color: #0066cc;
+
+    text-decoration: none;
+
+}
+
+
+.course-actions a:hover {
+
+    text-decoration: underline;
+
+}
+
+/* CSS — EMPTY STATE */
+.courses-empty {
+
+    padding: 32px;
+
+    text-align: center;
+
+}
+
+/* Empty Message  */
+.courses-empty p {
+
+    margin: 0 0 12px 0;
+
+    color: #666;
+
+}
+
+/* Create Course Link  */
+.courses-empty .btn-add-course {
+
+    margin-top: 4px;
+
+}
+
+/* Course detail CSS — LAYOUT & BACK LINK  */
+.course-detail {
+
+    max-width: 560px;
+
+    padding: 16px 0;
+
+}
+
+/* Back Link Styling  */
+.course-detail-back {
+
+    margin: 0 0 16px 0;
+
+    font-size: 0.9rem;
+
+}
+
+/* Back Link Appearance  */
+.course-detail-back a {
+
+    color: #0066cc;
+
+    text-decoration: none;
+
+}
+
+
+.course-detail-back a:hover {
+
+    text-decoration: underline;
+
+}
+
+/* CSS — DETAIL CARD  */
+.course-detail-card {
+
+    border: 1px solid #ddd;
+
+    border-left: 4px solid #28a745;
+
+    padding: 20px;
+
+    background: #fff;
+
+    border-radius: 8px;
+
+}
+
+/* Title Styling  */
+.course-detail-card h1 {
+
+    font-size: 1.3rem;
+
+    margin: 0 0 6px 0;
+
+}
+
+/* Teacher Text  */
+.course-detail-teacher {
+
+    font-size: 0.9rem;
+
+    color: #666;
+
+    margin: 0 0 12px 0;
+
+}
+
+/* Description Styling  */
+.course-detail-desc {
+
+    margin: 0 0 16px 0;
+
+    line-height: 1.5;
+
+    font-size: 0.95rem;
+
+}
+
+/* CSS — STUDENT BLOCK & ENROLL BUTTON  */
+.course-detail-student {
+
+    margin-top: 16px;
+
+}
+
+/* Student Paragraph Spacing  */
+.course-detail-student p {
+
+    margin: 0 0 8px 0;
+
+}
+
+
+/* Enroll Button  */
+.btn-enroll {
+
+    padding: 8px 20px;
+
+    background: #0066cc;
+
+    color: #fff;
+
+    border: none;
+
+    font-size: 0.95rem;
+
+    cursor: pointer;
+
+}
+
+/* Hover Effect  */
+.btn-enroll:hover {
+
+    background: #0052a3;
+
+}
+
+
+/* CSS — TEACHER ACTIONS ROW  */
+.course-detail-teacher-actions {
+
+    display: flex;
+
+    gap: 12px;
+
+    flex-wrap: wrap;
+
+    margin-top: 16px;
+
+    padding-top: 12px;
+
+    border-top: 1px solid #eee;
+
+}
+
+/* Action Links  */
+.course-detail-teacher-actions a {
+
+    font-size: 0.9rem;
+
+    color: #0066cc;
+
+    text-decoration: none;
+
+}
+
+
+.course-detail-teacher-actions a:hover {
+
+    text-decoration: underline;
+
+}
+
+/* Enrollments page CSS — PAGE WRAPPER & HEADING  */
+.enrollments-page {
+
+    max-width: 640px;
+
+    margin: 0 auto;
+
+    padding: 20px 0;
+
+    text-align: center;
+
+}
+
+/* Page Heading  */
+.enrollments-page h1 {
+
+    font-size: 1.25rem;
+
+    margin: 0 0 20px 0;
+
+}
+
+/* CSS — LIST CONTAINER & ROWS  */
+.enrollments-list {
+
+    text-align: left;
+
+    margin-bottom: 20px;
+
+}
+
+/* List Border  */
+.enrollments-list {
+
+    border: 1px solid #e0e0e0;
+
+}
+
+/* Enrollment Rows  */
+.enrollments-row {
+
+    display: flex;
+
+    padding: 12px 16px;
+
+    border-bottom: 1px solid #eee;
+
+}
+
+/* Last Row  */
+.enrollments-row:last-child {
+
+    border-bottom: none;
+
+}
+
+/* Header Row  */
+.enrollments-row-head {
+
+    background: #f8f8f8;
+
+    font-weight: 600;
+
+    font-size: 0.85rem;
+
+}
+
+/* CSS — COLUMN WIDTHS & LINKS  */
+.enrollments-row span:first-child {
+
+    flex: 1;
+
+}
+
+/* Status Column  */
+.enrollments-row span:nth-child(2) {
+
+    width: 90px;
+
+}
+
+/* Date Column  */
+.enrollments-row span:nth-child(3) {
+
+    width: 90px;
+
+    color: #666;
+
+}
+
+/* Course Links  */
+.enrollments-row a {
+
+    color: #333;
+
+    text-decoration: none;
+
+}
+
+
+.enrollments-row a:hover {
+
+    color: #0066cc;
+
+}
+
+Course Links .enrollments-row a {
+
+    color: #333;
+
+    text-decoration: none;
+
+}
+
+
+.enrollments-row a:hover {
+
+    color: #0066cc;
+
+}
+
+/* CSS — EMPTY STATE & BACK LINK  */
+.enrollments-empty {
+
+    color: #666;
+
+    margin: 0;
+
+}
+
+/* Empty Link Styling  */
+.enrollments-empty a {
+
+    color: #0066cc;
+
+    text-decoration: none;
+
+}
+
+
+.enrollments-empty a:hover {
+
+    text-decoration: underline;
+
+}
+
+/* Back Link  */
+.enrollments-back {
+
+    margin: 20px 0 0 0;
+
+    font-size: 0.9rem;
+
+}
+
+/* Back Link Appearance  */
+.enrollments-back a {
+
+    color: #0066cc;
+
+    text-decoration: none;
+
+}
+
+
+.enrollments-back a:hover {
+
+    text-decoration: underline;
+
+}
+
+/* CSS — PAGE WRAPPER & HEADING  */
+.users-page {
+
+    max-width: 720px;
+
+    margin: 0 auto;
+
+    padding: 20px 0;
+
+    text-align: center;
+
+}
+
+/* Heading  */
+.users-page h1 {
+
+    font-size: 1.25rem;
+
+    margin: 0 0 20px 0;
+
+}
+
+/* CSS — LIST CONTAINER & ROWS  */
+.users-list {
+
+    text-align: left;
+
+    margin-bottom: 20px;
+
+    border: 1px solid #e0e0e0;
+
+}
+
+/* User Rows  */
+.users-row {
+
+    display: flex;
+
+    padding: 12px 16px;
+
+    border-bottom: 1px solid #eee;
+
+}
+
+/* Last Row  */
+.users-row:last-child {
+
+    border-bottom: none;
+
+}
+
+/* Header Row  */
+.users-row-head {
+
+    background: #f8f8f8;
+
+    font-weight: 600;
+
+    font-size: 0.85rem;
+
+}
+
+/* CSS — COLUMN WIDTHS & LINK STYLES  */
+.users-row span:first-child {
+
+    flex: 1;
+
+    min-width: 100px;
+
+}
+
+/* Email Column  */
+.users-row span:nth-child(2) {
+
+    flex: 1;
+
+    min-width: 120px;
+
+}
+
+/* Role Column  */
+.users-row span:nth-child(3) {
+
+    width: 80px;
+
+}
+
+/* Actions Column  */
+.users-row span:nth-child(4) {
+
+    width: 100px;
+
+}
+
+/* Link Styles  */
+.users-row a {
+
+    color: #333;
+
+    text-decoration: none;
+
+}
+
+
+.users-row a:hover {
+
+    color: #0066cc;
+
+}
+
+/* Actions Spacing  */
+.users-actions a {
+
+    margin-right: 12px;
+
+}
+
+
+.users-actions a:last-child {
+
+    margin-right: 0;
+
+}
+
+/* CSS — EMPTY STATE & REGISTER LINK  */
+.users-empty {
+
+    color: #666;
+
+    margin: 0;
+
+}
+
+/* Empty Link Style  */
+.users-empty a {
+
+    color: #0066cc;
+
+    text-decoration: none;
+
+}
+
+
+.users-empty a:hover {
+
+    text-decoration: underline;
+
+}
+
+/* Bottom Register Link  */
+.users-register {
+
+    margin: 20px 0 0 0;
+
+    font-size: 0.9rem;
+
+}
+
+/* Register Link Appearance  */
+.users-register a {
+
+    color: #0066cc;
+
+    text-decoration: none;
+
+}
+
+
+.users-register a:hover {
+
+    text-decoration: underline;
+
+}
+
+/* User detail page CSS — PAGE WRAPPER & LIST CONTAINER  */
+.user-detail {
+
+    max-width: 640px;
+
+    margin: 0 auto;
+
+    padding: 20px 0;
+
+    text-align: center;
+
+}
+
+/* List Container  */
+.user-detail-list {
+
+    text-align: left;
+
+    margin-bottom: 20px;
+
+    border: 1px solid #e0e0e0;
+
+}
+
+/* CSS — ROWS & HEADER  */
+.user-detail-row {
+
+    display: flex;
+
+    padding: 12px 16px;
+
+    border-bottom: 1px solid #eee;
+
+}
+
+/* Last Row  */
+.user-detail-row:last-child {
+
+    border-bottom: none;
+
+}
+
+/* Header Row  */
+.user-detail-row-head {
+
+    background: #f8f8f8;
+
+    font-weight: 600;
+
+    font-size: 0.85rem;
+
+}
+
+/* CSS — COLUMN WIDTHS & ACTIONS  */
+.user-detail-row span:first-child {
+
+    flex: 1;
+
+    min-width: 100px;
+
+}
+
+/* Email Column  */
+.user-detail-row span:nth-child(2) {
+
+    flex: 1;
+
+    min-width: 120px;
+
+}
+
+/* Role Column  */
+.user-detail-row span:nth-child(3) {
+
+    width: 80px;
+
+}
+
+/* Actions Column  */
+.user-detail-row span:nth-child(4) {
+
+    width: 100px;
+
+}
+
+/* Actions Styling  */
+.user-detail-actions a {
+
+    margin-right: 12px;
+
+    font-size: 0.9rem;
+
+    color: #0066cc;
+
+    text-decoration: none;
+
+}
+
+/* Hover Style  */
+.user-detail-actions a:hover {
+
+    text-decoration: underline;
+
+}
+
+/* CSS — BACK LINK  */
+.user-detail-back {
+
+    margin: 20px 0 0 0;
+
+    font-size: 0.9rem;
+
+}
+
+/* Back Link Style  */
+.user-detail-back a {
+
+    color: #0066cc;
+
+    text-decoration: none;
+
+}
+
+
+.user-detail-back a:hover {
+
+    text-decoration: underline;
+
+}
+
+/* CSS — REGISTER PAGE LAYOUT  */
+.register-page {
+
+    display: flex;
+
+    gap: 0;
+
+    min-height: 500px;
+
+}
+
+
+.register-left {
+
+    flex: 1;
+
+    background: #d4edda;
+
+    border-radius: 12px;
+
+    padding: 40px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+}
+
+
+.register-left h1 {
+
+    font-size: 1.75rem;
+
+    margin: 0 0 24px 0;
+
+    color: #333;
+
+    text-align: center;
+
+}
+
+
+.register-left img {
+
+    max-width: 100%;
+
+    height: auto;
+
+    display: block;
+
+}
+
+
+.register-right {
+
+    flex: 1;
+
+    padding: 40px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+}
+
+/* CSS — FORM & ERROR  */
+.register-form {
+
+    width: 100%;
+
+    max-width: 360px;
+
+}
+
+
+.register-error {
+
+    color: #c00;
+
+    margin: 0 0 16px 0;
+
+    font-size: 0.9rem;
+
+}
+
+/* CSS — FORM GROUPS & SELECT  */
+.register-form .form-group {
+
+    margin-bottom: 20px;
+
+}
+
+
+.register-form .form-group label {
+
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-weight: 500;
+
+    color: #333;
+
+}
+
+
+.register-form .form-group input {
+
+    width: 100%;
+
+    padding: 10px 12px;
+
+    font-size: 1rem;
+
+    border: 1px solid #ccc;
+
+    border-radius: 6px;
+
+    background: #fff;
+
+    color: #333;
+
+}
+
+
+.register-form .form-group select {
+
+    width: 100%;
+
+    padding: 10px 12px;
+
+    font-size: 1rem;
+
+    border: 1px solid #ccc;
+
+    border-radius: 6px;
+
+    background: #fff;
+
+    color: #333;
+
+}
+
+/* CSS — SUBMIT BUTTON & LOGIN LINK  */
+.btn-register-submit {
+
+    width: 100%;
+
+    padding: 12px;
+
+    font-size: 1rem;
+
+    font-weight: 600;
+
+    background: #0066cc;
+
+    color: #fff;
+
+    border: none;
+
+    border-radius: 6px;
+
+    cursor: pointer;
+
+    text-align: center;
+
+    margin-top: 8px;
+
+}
+
+
+.btn-register-submit:hover {
+
+    background: #0052a3;
+
+}
+
+
+.register-login {
+
+    margin: 20px 0 0 0;
+
+    font-size: 0.9rem;
+
+    text-align: center;
+
+}
+
+
+.register-login a {
+
+    color: #0066cc;
+
+    text-decoration: none;
+
+}
+
+
+.register-login a:hover {
+
+    text-decoration: underline;
+
+}

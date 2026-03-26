@@ -1,35 +1,96 @@
 {% extends 'base.html' %}
 {% block title %}Register - LMS{% endblock %}
 {% block content %}
-{% if error %}
-<p style="color:red;">{{error}}</p>
-{% endif %}
-<h1>New user Register</h1>
+<div class="register-page">
 
-<form method="POST">
-    <p>
-        <label for="username">Username</label>
-        <input type="text" id="username" name="username" required>
+    <div class="register-left">
 
-    </p>
-    <p>
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" required>
 
-    </p>
-    <p>
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" minlength="4" maxle="10">
-    </p>
-    <p>
-        <label for="role">Role</label>
-        <select name="role" id="role">
-            <option value="student">Student</option>
-            <option value="teacher">Teacher</option>
-        </select>
-    </p>
-    <br>
-    <button type="submit">Register</button>
-</form>
+        <h1>Join LearnbyTech</h1>
 
-{% endblock %}
+
+        <img src="{{ url_for('static', filename='images/login-illustration.png.png') }}" alt="Student learning online">
+
+
+    </div>
+    <div class="register-right">
+
+
+        <form method="post" class="register-form">
+
+
+            {% if error %}
+
+            <p class="register-error">{{ error }}</p>
+
+            {% endif %}
+
+
+            <div class="form-group">
+
+                <label for="username">Username</label>
+
+                <input type="text" id="username" name="username" required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="email">Email</label>
+
+                <input type="email" id="email" name="email" required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="password">Password</label>
+
+                <input type="password" id="password" name="password" required minlength="4" maxlength="8">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="role">Role</label>
+
+
+                <select id="role" name="role" required>
+
+                    <option value="student">Student</option>
+
+                    <option value="teacher">Teacher</option>
+
+                </select>
+
+
+            </div>
+
+
+            <button type="submit" class="btn-register-submit">
+
+                Register
+
+            </button>
+
+
+            <p class="register-login">
+
+                <a href="{{ url_for('login') }}">
+
+                    Already have an account? Login
+
+                </a>
+
+            </p>
+
+
+        </form>
+
+
+    </div>
+
+    {% endblock %}

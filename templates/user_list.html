@@ -1,38 +1,111 @@
 {% extends "base.html" %}
 {% block title %}Users - LMS {% endblock %}
 {% block content %}
-<h1>Users</h1>
-{% if users %}
-<table border="1" cellpadding="8">
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Username</th>
-            <th>Email</th>
-            <th>Role</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
+
+<div class="users-page">
+
+    <h1>Users</h1>
+
+
+    {% if users %}
+
+
+    <div class="users-list">
+
+
+        <div class="users-row users-row-head">
+
+            <span>Username</span>
+
+            <span>Email</span>
+
+            <span>Role</span>
+
+            <span>Actions</span>
+
+        </div>
+
+
         {% for user in users %}
-        <tr>
-            <td>{{user.id}}</td>
 
-            <td><a href="{{url_for('user_detail',id=user.id)}}">{{user.username}}</td>
-            <td>{{user.email}}</td>
-            <td>{{user.role}}</td>
-            <td>
-                <a href="{{ url_for('edit_user', id=user.id) }}">Edit User</a> |
 
-                <a href="{{url_for('delete_user',id=user.id) }} "
-                    onclick="return confirm('are you sure you want to delete this user')">Delete</a>
-            </td>
-        </tr>
+        <div class="users-row">
+
+
+            <span>
+
+                <a href="{{ url_for('user_detail', id=user.id) }}">
+
+                    {{ user.username }}
+
+                </a>
+
+            </span>
+
+
+            <span>{{ user.email }}</span>
+
+
+            <span>{{ user.role }}</span>
+
+
+            <span class="users-actions">
+
+
+                <a href="{{ url_for('edit_user', id=user.id) }}">Edit</a>
+
+
+                <a href="{{ url_for('delete_user', id=user.id) }}" onclick="return confirm('Are you sure?')">
+
+
+                    Delete
+
+
+                </a>
+
+
+            </span>
+
+
+        </div>
+
+
         {% endfor %}
-    </tbody>
 
-</table>
-{% else %}
-<p>No users yet.<a href="{{url_for('register')}}">Register</a></p>
-{% endif %}
+
+    </div>
+
+
+    {% else %}
+
+
+
+
+    <p class="users-empty">
+
+
+        No users yet.
+
+
+        <a href="{{ url_for('register') }}">Register</a>
+
+
+    </p>
+
+
+    {% endif %}
+
+
+    <p class="users-register">
+
+
+        <a href="{{ url_for('register') }}">Register</a>
+
+
+    </p>
+
+
+
+</div>
+
 {% endblock %}
