@@ -4,89 +4,138 @@
 
 {% block content %}
 
-<h1>Enrollments - {{ course.title }}</h1>
+<div class="course-enrollments-page">
 
-{% if enrollments %}
+    <h1>
 
-<table border="1" cellpadding="8">
+        Enrollments for
 
-    <thead>
-        <tr>
+        <a href="{{ url_for('course_detail', id=course.id) }}">
 
-            <th>Student</th>
+            {{ course.title }}
 
-            <th>Status</th>
+        </a>
 
-            <th>Date</th>
+    </h1>
+    {% if enrollments %}
 
-            <th>Actions</th>
 
-        </tr>
+    <div class="course-enrollments-list">
 
-    </thead>
 
-    <tbody>
+        <div class="course-enrollments-row course-enrollments-row-head">
+
+
+            <span>Student</span>
+
+            <span>Status</span>
+
+            <span>Date</span>
+
+            <span>Actions</span>
+
+
+        </div>
+
 
         {% for e in enrollments %}
 
-        <tr>
 
-            <td>
+        <div class="course-enrollments-row">
 
-                {{ e.user.username }} ({{ e.user.email }})
 
-            </td>
+            <span>{{ e.user.username }} ({{ e.user.email }})</span>
 
-            <td>
 
-                {{ e.status }}
+            <span>{{ e.status }}</span>
 
-            </td>
 
-            <td>
+            <span>{{ e.created_at.strftime('%Y-%m-%d') if e.created_at else '-' }}</span>
 
-                {{ e.created_at.strftime('%Y-%m-%d') if e.created_at else '-' }}
 
-            </td>
-            <td>
+            <span class="course-enrollments-actions">
 
 
                 {% if e.status == 'pending' %}
 
 
-                <form method="post" action="{{ url_for('approve_enrollment', id=e.id) }}" style="display:inline;">
+                <form method="post" action="{{ url_for('approve_enrollment', id=e.id) }}" style="display: inline;">
 
-                    <button type="submit">Approve</button>
+
+                    <button type="submit" class="btn-approve">Approve</button>
+
+
+                </form>
+
+
+                <form method="post" action="{{ url_for('reject_enrollment', id=e.id) }}" style="display: inline;">
+
+
+                    <button type="submit" class="btn-reject">Reject</button>
+
 
                 </form>
 
-                <form method="post" action="{{ url_for('reject_enrollment', id=e.id) }}" style="display:inline;">
 
-                    <button type="submit">Reject</button>
-
-                </form>
                 {% else %}
-                -
+
+
+                <span class="course-enrollments-none">N/A</span>
+
+
                 {% endif %}
 
-            </td>
-        </tr>
+
+            </span>
+
+
+        </div>
+
+
         {% endfor %}
 
-    </tbody>
-</table>
-{% else %}
 
-<p>No enrollments yet.</p>
-{% endif %}
+    </div>
 
-<p>
 
-    <a href="{{ url_for('course_detail', id=course.id) }}">Back to Course</a> |
+    {% else %}
 
-    <a href="{{ url_for('list_courses') }}">Courses</a>
 
-</p>
 
+
+
+    <p class="course-enrollments-empty">
+
+        No enrollments yet.
+
+    </p>
+
+
+    {% endif %}
+
+
+    <p class="course-enrollments-back">
+
+
+        <a href="{{ url_for('course_detail', id=course.id) }}">
+
+            Back to Course
+
+        </a>
+
+
+        <a href="{{ url_for('list_courses') }}">
+
+            Courses
+
+        </a>
+
+
+    </p>
+
+
+
+
+</div>
 
 {% endblock %}

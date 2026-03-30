@@ -1,76 +1,76 @@
 {% extends 'base.html' %}
 {% block title %}Login - LMS{% endblock %}
 {% block content %}
-
-<div class="login-left">
-
-
-    <h1>Hello, Learner !</h1>
+<div class="login-page">
+    <div class="login-left">
 
 
-    <img src="{{ url_for('static',
-
-filename='images/login-illustration.png.png') }}" alt="Student learning online with laptop">
+        <h1>Hello, Learner !</h1>
 
 
-</div>
-<div class="login-right">
+        <img src="{{ url_for('static',filename='images/login-illustration.jpg') }}"
+            alt="Student learning online with laptop">
 
 
-    <form method="post" action="{{ url_for('login') }}" class="login-form">
+    </div>
+    <div class="login-right">
 
 
-        <div class="form-group">
+        <form method="post" action="{{ url_for('login') }}" class="login-form">
 
 
-            <label for="username">Username</label>
+            <div class="form-group">
 
 
-            <input type="text" id="username" name="username" required placeholder="">
+                <label for="username">Username</label>
 
 
-        </div>
+                <input type="text" id="username" name="username" required placeholder="">
 
 
-        <div class="form-group">
+            </div>
 
 
-            <label for="password">Password</label>
+            <div class="form-group">
 
 
-            <input type="password" id="password" name="password" required placeholder="">
+                <label for="password">Password</label>
 
 
-        </div>
+                <input type="password" id="password" name="password" required placeholder="">
 
 
-        <button type="submit" class="btn-login-submit">
+            </div>
 
 
-            Login
+            <button type="submit" class="btn-login-submit">
 
 
-        </button>
+                Login
 
 
-        <div class="login-links">
+            </button>
 
 
-            <a href="#">Forgot password?</a>
+            <div class="login-links">
 
 
-            <a href="{{ url_for('register') }}">
-
-                Create a new account?
-
-            </a>
+                <a href="#">Forgot password?</a>
 
 
-        </div>
+                <a href="{{ url_for('register') }}">
+
+                    Create a new account?
+
+                </a>
 
 
-    </form>
+            </div>
 
 
+        </form>
+
+
+    </div>
 </div>
 {% endblock %}

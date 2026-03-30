@@ -5,74 +5,123 @@
 
 
 {% block content %}
+<div class="videos-page">
 
-<h1>Videos - {{ course.title }}</h1>
-
-
-{% if session.get('role') == 'teacher' and course.teacher_id == session.get('user_id') %}
-
-<p><a href="{{ url_for('create_video', id=course.id) }}">Add Video</a></p>
-
-{% endif %}
+    <div class="videos-header">
 
 
-{% if videos %}
+        <h1>
 
-<table border="1" cellpadding="8">
+            Videos for
 
-    <thead>
+            <a href="{{ url_for('course_detail', id=course.id) }}">
 
-        <tr>
+                {{ course.title }}
 
-            <th>Title</th>
+            </a>
 
-            <th>File</th>
+        </h1>
 
-            {% if session.get('role') == 'teacher' and course.teacher_id == session.get('user_id') %}
 
-            <th>Actions</th>
+        {% if session.get('role') == 'teacher' and course.teacher_id == session.get('user_id') %}
 
-            {% endif %}
 
-        </tr>
+        <a href="{{ url_for('create_video', id=course.id) }}" class="videos-add-btn">
 
-    </thead>
 
-    <tbody>
+            Add Video
+
+
+        </a>
+
+
+        {% endif %}
+
+
+    </div>
+    {% if videos %}
+
+
+    <div class="videos-grid">
+
 
         {% for v in videos %}
 
-        <tr>
 
-            <td>{{ v.title }}</td>
+        <div class="video-card">
 
-            <td>
 
-                <a href="{{ url_for('static', filename=v.file_path) }}" target="_blank">View</a>
+            <div class="video-card-icon">▶</div>
 
-            </td>
 
-            {% if session.get('role') == 'teacher' and course.teacher_id == session.get('user_id') %}
+            <h3>{{ v.title }}</h3>
 
-            <td><a href="{{ url_for('delete_video', id=v.id) }}">Delete</a></td>
+
+            <a href="{{ url_for('static', filename=v.file_path) }}" target="_blank" class="video-watch">
+
+
+                Watch
+
+
+            </a>
+
+
+            {% if session.get('role') == 'teacher'
+
+            and course.teacher_id == session.get('user_id') %}
+
+
+            <a href="{{ url_for('delete_video', id=v.id) }}" onclick="return confirm('Delete this video?')"
+                class="video-delete">
+
+
+                Delete
+
+
+            </a>
+
 
             {% endif %}
 
-        </tr>
+
+        </div>
+
 
         {% endfor %}
 
-    </tbody>
 
-</table>
-
-{% else %}
-
-<p>No videos yet.</p>
-
-{% endif %}
+    </div>
 
 
-<p><a href="{{ url_for('course_detail', id=course.id) }}">Back to Course</a></p>
+    {% else %}
+
+
+    <div class="videos-empty">
+
+
+        <p>No videos yet.</p>
+
+
+    </div>
+
+
+    <div class="videos-footer">
+
+
+        <a href="{{ url_for('course_detail', id=course.id) }}">
+
+            Back to Course
+
+        </a>
+
+
+    </div>
+
+
+    {% endif %}
+
+</div>
+
+
 
 {% endblock %}

@@ -1,33 +1,102 @@
 {% extends 'base.html' %}
 {% block title %}Edit Course - LMS{% endblock %}
 {% block content %}
-<h1>Edit Course</h1>
 
-<form method="POST" action="{{ url_for('course_edit', id=course.id) }}">
-    <p>
-        <label for="title">title</label>
-        <input type="text" id="title" name="title" value="{{ course.title }}" required>
+<div class="course-edit-page">
 
-    </p>
-    <p>
-        <label for="description">description</label>
-        <textarea name="description" id="description" rows="4" required>{{course.description}}</textarea>
-    </p>
-    <p>
-        <select name="teacher_id" required>
-            <option value="">-- Select Teacher --</option>
-
-            {% for teacher in teachers %}
-            <option value="{{ teacher.id }}" {% if course is defined and course and course.teacher_id==teacher.id
-                %}selected{% endif %}>
-                {{ teacher.username }}
-            </option>
-            {% endfor %}
-        </select>
-    </p>
+    <div class="course-edit-left">
 
 
-    <br>
-    <button type="submit">Update course</button>
-</form>
+        <h1>Edit Course</h1>
+
+
+        <img src="{{ url_for('static', filename='images/login-illustration.png.png') }}" alt="Edit course">
+
+
+    </div>
+    <div class="course-edit-right">
+
+
+        <form method="post" action="{{ url_for('course_edit', id=course.id) }}" class="course-edit-form">
+
+
+            <div class="form-group">
+
+                <label for="title">Title</label>
+
+                <input type="text" id="title" name="title" value="{{ course.title }}" required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="description">Description</label>
+
+                <textarea id="description" name="description" rows="4"
+                    required>{{ course.description or '' }}</textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="teacher_id">Teacher</label>
+
+
+                <select id="teacher_id" name="teacher_id" required>
+
+
+                    {% for teacher in teachers %}
+
+
+                    <option value="{{ teacher.id }}" {% if teacher.id==course.teacher_id %}selected{% endif %}>
+
+                        {{ teacher.username }}
+
+                    </option>
+
+
+                    {% endfor %}
+
+
+                </select>
+
+
+            </div>
+
+
+            <button type="submit" class="btn-course-edit-submit">
+
+                Update Course
+
+            </button>
+
+
+            <p class="course-edit-links">
+
+
+                <a href="{{ url_for('course_detail', id=course.id) }}">
+
+                    Back to Course
+
+                </a>
+
+
+                <a href="{{ url_for('list_courses') }}">
+
+                    Cancel
+
+                </a>
+
+
+            </p>
+
+
+        </form>
+
+
+    </div>
+
+</div>
 {% endblock %}

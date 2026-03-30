@@ -1,45 +1,89 @@
 {% extends "base.html" %}
 {% block title %}Add Video - {{ course.title }}{% endblock %}
 {% block content %}
-<h1>Add Video - {{ course.title }}</h1>
+
+<div class="video-form-page">
+
+    <div class="video-form-left">
 
 
-<form method="post" enctype="multipart/form-data" action="{{ url_for('create_video', id=course.id) }}">
+        <h1>Add Video</h1>
 
 
-    <p>
-
-        <label>Title:</label><br>
-
-        <input type="text" name="title" value="{{ title or '' }}" required>
-
-    </p>
+        <p>{{ course.title }}</p>
 
 
-    <p>
-
-        <label>File:</label><br>
-
-        <input type="file" name="file" accept="video/*" required>
-
-    </p>
+        <img src="{{ url_for('static', filename='images/login-illustration.png.png') }}" alt="Add video">
 
 
-    <p>
-
-        <button type="submit">Upload</button>
-
-    </p>
+    </div>
+    <div class="video-form-right">
 
 
-</form>
+        <form action="{{ url_for('create_video', id=course.id) }}" method="post" enctype="multipart/form-data"
+            class="video-form">
 
 
-<p>
+            <div class="form-group">
 
-    <a href="{{ url_for('list_videos', id=course.id) }}">Cancel</a>
 
-</p>
+                <label for="title">Title</label>
+
+
+                <input type="text" id="title" name="title" value="{{ title or '' }}" required>
+
+
+            </div>
+
+
+            <div class="form-group">
+
+
+                <label for="file">File</label>
+
+
+                <input type="file" id="file" name="file" accept="video/*" required>
+
+
+            </div>
+
+
+            <button type="submit" class="btn-video-upload">
+
+
+                Upload
+
+
+            </button>
+
+
+            <p class="video-form-links">
+
+
+                <a href="{{ url_for('list_videos', id=course.id) }}">
+
+                    Back to Videos
+
+                </a>
+
+
+                <a href="{{ url_for('list_videos', id=course.id) }}">
+
+                    Cancel
+
+                </a>
+
+
+            </p>
+
+
+        </form>
+
+
+    </div>
+
+</div>
+
 
 
 {% endblock %}

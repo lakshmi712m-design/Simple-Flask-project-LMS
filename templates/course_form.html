@@ -1,34 +1,121 @@
 {% extends 'base.html' %}
 {% block title %}ADD course - LMS{% endblock %}
 {% block content %}
-<h1>Add Course</h1>
 
-<form method="POST" action="{{url_for('course_create')}}">
-    <p>
-        <label for="title">Title:</label>
-        <input type="text" id="title" name="title" required>
+<div class="course-form-page">
 
-    </p>
-    <p>
-        <label for="description">Description</label>
-        <textarea name="description" id="description" rows="4"></textarea>
+    <div class="course-form-left">
 
-    </p>
 
-    <p>
-        <select name="teacher_id" required>
-            <option value="">-- Select Teacher --</option>
+        <h1>Create Course</h1>
 
-            {% for teacher in teachers %}
-            <option value="{{ teacher.id }}" {% if course is defined and course and course.teacher_id==teacher.id
-                %}selected{% endif %}>
-                {{ teacher.username }}
-            </option>
-            {% endfor %}
-        </select>
-    </p>
-    <br>
-    <button type="submit">Create Course</button>
-</form>
+
+        <p>Add a new course</p>
+
+
+        <img src="{{ url_for('static', filename='images/login-illustration.png.png') }}" alt="Create course">
+
+
+    </div>
+    <div class="course-form-right">
+
+
+        <form method="post" action="{{ url_for('course_create') }}" class="course-form">
+
+
+            <div class="form-group">
+
+
+                <label for="title">Title</label>
+
+
+                <input type="text" id="title" name="title" value="{{ title or '' }}" required>
+
+
+            </div>
+
+
+            <div class="form-group">
+
+
+                <label for="description">Description</label>
+
+
+                <textarea id="description" name="description" rows="4" required>
+
+
+    {{ description or description or '' }}
+    
+    
+    </textarea>
+
+
+            </div>
+
+
+            <div class="form-group">
+
+
+                <label for="teacher_id">Teacher</label>
+
+
+                <select id="teacher_id" name="teacher_id" required>
+
+
+                    {% for teacher in teachers %}
+
+
+                    <option value="{{ teacher.id }}">
+
+                        {{ teacher.username }}
+
+                    </option>
+
+
+                    {% endfor %}
+
+
+                </select>
+
+
+            </div>
+
+
+            <button type="submit" class="btn-course-create">
+
+
+                Create Course
+
+
+            </button>
+
+
+            <p class="course-form-links">
+
+
+                <a href="{{ url_for('list_courses') }}">
+
+                    Back to Courses
+
+                </a>
+
+
+                <a href="{{ url_for('list_courses') }}">
+
+                    Cancel
+
+                </a>
+
+
+            </p>
+
+
+        </form>
+
+
+    </div>
+
+</div>
+
 
 {% endblock %}
